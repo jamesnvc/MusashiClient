@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class Catalog;
+@class ExerciseCatalog;
 
 @interface CatalogViewController : UITableViewController
 {
     NSURLConnection *connection;
     NSMutableData *jsonData;
-    Catalog *catalog;
+    ExerciseCatalog *catalog;
 }
-@property (nonatomic, strong) Catalog *catalog;
+@property (nonatomic, strong) ExerciseCatalog *catalog;
 - (void)fetchCatalog;
 @end

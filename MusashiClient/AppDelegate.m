@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "CatalogViewController.h"
 
 @implementation AppDelegate
 
@@ -14,8 +15,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    CatalogViewController *cvc = [[CatalogViewController alloc] 
+                                  initWithStyle:UITableViewStylePlain];
+    UINavigationController *masterNav = [[UINavigationController alloc]
+                                         initWithRootViewController:cvc];
+    [self.window setRootViewController:masterNav];    
     [self.window makeKeyAndVisible];
     return YES;
 }

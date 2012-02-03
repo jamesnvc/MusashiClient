@@ -15,6 +15,10 @@
 		1A7B34FC14DC27AF006FC5A8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B34FB14DC27AF006FC5A8 /* AppDelegate.m */; };
 		1A7B350314DC27CB006FC5A8 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A7B350214DC27CB006FC5A8 /* MainWindow.xib */; };
 		1A7B350E14DC2C07006FC5A8 /* CatalogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B350D14DC2C07006FC5A8 /* CatalogViewController.m */; };
+		1A7B351114DC2FBB006FC5A8 /* ExerciseCatalog.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B351014DC2FBB006FC5A8 /* ExerciseCatalog.m */; };
+		1A7B351414DC3334006FC5A8 /* ExerciseTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B351314DC3334006FC5A8 /* ExerciseTrack.m */; };
+		1A7B351A14DC570E006FC5A8 /* TrackDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A7B351914DC570E006FC5A8 /* TrackDetailViewController.xib */; };
+		1A7B351D14DC5743006FC5A8 /* TrackDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B351C14DC5743006FC5A8 /* TrackDetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +35,13 @@
 		1A7B350214DC27CB006FC5A8 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		1A7B350C14DC2C07006FC5A8 /* CatalogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatalogViewController.h; sourceTree = "<group>"; };
 		1A7B350D14DC2C07006FC5A8 /* CatalogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatalogViewController.m; sourceTree = "<group>"; };
+		1A7B350F14DC2FBB006FC5A8 /* ExerciseCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExerciseCatalog.h; sourceTree = "<group>"; };
+		1A7B351014DC2FBB006FC5A8 /* ExerciseCatalog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExerciseCatalog.m; sourceTree = "<group>"; };
+		1A7B351214DC3334006FC5A8 /* ExerciseTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExerciseTrack.h; sourceTree = "<group>"; };
+		1A7B351314DC3334006FC5A8 /* ExerciseTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExerciseTrack.m; sourceTree = "<group>"; };
+		1A7B351914DC570E006FC5A8 /* TrackDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackDetailViewController.xib; sourceTree = "<group>"; };
+		1A7B351B14DC5742006FC5A8 /* TrackDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackDetailViewController.h; sourceTree = "<group>"; };
+		1A7B351C14DC5743006FC5A8 /* TrackDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackDetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +92,13 @@
 				1A7B34FB14DC27AF006FC5A8 /* AppDelegate.m */,
 				1A7B350C14DC2C07006FC5A8 /* CatalogViewController.h */,
 				1A7B350D14DC2C07006FC5A8 /* CatalogViewController.m */,
+				1A7B351914DC570E006FC5A8 /* TrackDetailViewController.xib */,
+				1A7B351B14DC5742006FC5A8 /* TrackDetailViewController.h */,
+				1A7B351C14DC5743006FC5A8 /* TrackDetailViewController.m */,
+				1A7B351214DC3334006FC5A8 /* ExerciseTrack.h */,
+				1A7B351314DC3334006FC5A8 /* ExerciseTrack.m */,
+				1A7B350F14DC2FBB006FC5A8 /* ExerciseCatalog.h */,
+				1A7B351014DC2FBB006FC5A8 /* ExerciseCatalog.m */,
 				1A7B34F214DC27AF006FC5A8 /* Supporting Files */,
 			);
 			path = MusashiClient;
@@ -151,6 +169,7 @@
 			files = (
 				1A7B34F614DC27AF006FC5A8 /* InfoPlist.strings in Resources */,
 				1A7B350314DC27CB006FC5A8 /* MainWindow.xib in Resources */,
+				1A7B351A14DC570E006FC5A8 /* TrackDetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +183,9 @@
 				1A7B34F814DC27AF006FC5A8 /* main.m in Sources */,
 				1A7B34FC14DC27AF006FC5A8 /* AppDelegate.m in Sources */,
 				1A7B350E14DC2C07006FC5A8 /* CatalogViewController.m in Sources */,
+				1A7B351114DC2FBB006FC5A8 /* ExerciseCatalog.m in Sources */,
+				1A7B351414DC3334006FC5A8 /* ExerciseTrack.m in Sources */,
+				1A7B351D14DC5743006FC5A8 /* TrackDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,6 +251,7 @@
 		1A7B350014DC27AF006FC5A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MusashiClient/MusashiClient-Prefix.pch";
 				INFOPLIST_FILE = "MusashiClient/MusashiClient-Info.plist";
@@ -240,6 +263,7 @@
 		1A7B350114DC27AF006FC5A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MusashiClient/MusashiClient-Prefix.pch";
 				INFOPLIST_FILE = "MusashiClient/MusashiClient-Info.plist";
