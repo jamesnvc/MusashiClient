@@ -13,6 +13,8 @@
 		1A7B34F614DC27AF006FC5A8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A7B34F414DC27AF006FC5A8 /* InfoPlist.strings */; };
 		1A7B34F814DC27AF006FC5A8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B34F714DC27AF006FC5A8 /* main.m */; };
 		1A7B34FC14DC27AF006FC5A8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B34FB14DC27AF006FC5A8 /* AppDelegate.m */; };
+		1A7B350314DC27CB006FC5A8 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A7B350214DC27CB006FC5A8 /* MainWindow.xib */; };
+		1A7B350E14DC2C07006FC5A8 /* CatalogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B350D14DC2C07006FC5A8 /* CatalogViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,12 +22,15 @@
 		1A7B34EB14DC27AF006FC5A8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1A7B34ED14DC27AF006FC5A8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1A7B34EF14DC27AF006FC5A8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		1A7B34F314DC27AF006FC5A8 /* MusashiClient-Info.plist */ = {isa = PBXFileReference; path = "MusashiClient-Info.plist"; sourceTree = "<group>"; };
+		1A7B34F314DC27AF006FC5A8 /* MusashiClient-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MusashiClient-Info.plist"; sourceTree = "<group>"; };
 		1A7B34F514DC27AF006FC5A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1A7B34F714DC27AF006FC5A8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		1A7B34F914DC27AF006FC5A8 /* MusashiClient-Prefix.pch */ = {isa = PBXFileReference; path = "MusashiClient-Prefix.pch"; sourceTree = "<group>"; };
-		1A7B34FA14DC27AF006FC5A8 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		1A7B34F914DC27AF006FC5A8 /* MusashiClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusashiClient-Prefix.pch"; sourceTree = "<group>"; };
+		1A7B34FA14DC27AF006FC5A8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1A7B34FB14DC27AF006FC5A8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1A7B350214DC27CB006FC5A8 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		1A7B350C14DC2C07006FC5A8 /* CatalogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatalogViewController.h; sourceTree = "<group>"; };
+		1A7B350D14DC2C07006FC5A8 /* CatalogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatalogViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +79,8 @@
 			children = (
 				1A7B34FA14DC27AF006FC5A8 /* AppDelegate.h */,
 				1A7B34FB14DC27AF006FC5A8 /* AppDelegate.m */,
+				1A7B350C14DC2C07006FC5A8 /* CatalogViewController.h */,
+				1A7B350D14DC2C07006FC5A8 /* CatalogViewController.m */,
 				1A7B34F214DC27AF006FC5A8 /* Supporting Files */,
 			);
 			path = MusashiClient;
@@ -82,6 +89,7 @@
 		1A7B34F214DC27AF006FC5A8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1A7B350214DC27CB006FC5A8 /* MainWindow.xib */,
 				1A7B34F314DC27AF006FC5A8 /* MusashiClient-Info.plist */,
 				1A7B34F414DC27AF006FC5A8 /* InfoPlist.strings */,
 				1A7B34F714DC27AF006FC5A8 /* main.m */,
@@ -142,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A7B34F614DC27AF006FC5A8 /* InfoPlist.strings in Resources */,
+				1A7B350314DC27CB006FC5A8 /* MainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +163,7 @@
 			files = (
 				1A7B34F814DC27AF006FC5A8 /* main.m in Sources */,
 				1A7B34FC14DC27AF006FC5A8 /* AppDelegate.m in Sources */,
+				1A7B350E14DC2C07006FC5A8 /* CatalogViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +267,7 @@
 				1A7B350114DC27AF006FC5A8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
