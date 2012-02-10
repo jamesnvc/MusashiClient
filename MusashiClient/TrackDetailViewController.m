@@ -7,7 +7,7 @@
 //
 
 #import "TrackDetailViewController.h"
-#import "ExerciseTrack.h"
+#import "CatalogTrack.h"
 
 @implementation TrackDetailViewController
 @synthesize releaseLabel, trackLabel, songLabel, durationLabel, typeLabel;

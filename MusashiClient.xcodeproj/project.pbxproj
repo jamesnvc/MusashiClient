@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A49647A14E57082004202E8 /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A49647814E57082004202E8 /* MainMenuViewController.m */; };
+		1A49647B14E57082004202E8 /* MainMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A49647914E57082004202E8 /* MainMenuViewController.xib */; };
 		1A7B34EC14DC27AF006FC5A8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7B34EB14DC27AF006FC5A8 /* UIKit.framework */; };
 		1A7B34EE14DC27AF006FC5A8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7B34ED14DC27AF006FC5A8 /* Foundation.framework */; };
 		1A7B34F014DC27AF006FC5A8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7B34EF14DC27AF006FC5A8 /* CoreGraphics.framework */; };
@@ -16,12 +18,15 @@
 		1A7B350314DC27CB006FC5A8 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A7B350214DC27CB006FC5A8 /* MainWindow.xib */; };
 		1A7B350E14DC2C07006FC5A8 /* CatalogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B350D14DC2C07006FC5A8 /* CatalogViewController.m */; };
 		1A7B351114DC2FBB006FC5A8 /* ExerciseCatalog.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B351014DC2FBB006FC5A8 /* ExerciseCatalog.m */; };
-		1A7B351414DC3334006FC5A8 /* ExerciseTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B351314DC3334006FC5A8 /* ExerciseTrack.m */; };
+		1A7B351414DC3334006FC5A8 /* CatalogTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B351314DC3334006FC5A8 /* CatalogTrack.m */; };
 		1A7B351A14DC570E006FC5A8 /* TrackDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A7B351914DC570E006FC5A8 /* TrackDetailViewController.xib */; };
 		1A7B351D14DC5743006FC5A8 /* TrackDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7B351C14DC5743006FC5A8 /* TrackDetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A49647714E57082004202E8 /* MainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuViewController.h; sourceTree = "<group>"; };
+		1A49647814E57082004202E8 /* MainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuViewController.m; sourceTree = "<group>"; };
+		1A49647914E57082004202E8 /* MainMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenuViewController.xib; sourceTree = "<group>"; };
 		1A7B34E714DC27AF006FC5A8 /* MusashiClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusashiClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A7B34EB14DC27AF006FC5A8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1A7B34ED14DC27AF006FC5A8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -37,8 +42,8 @@
 		1A7B350D14DC2C07006FC5A8 /* CatalogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatalogViewController.m; sourceTree = "<group>"; };
 		1A7B350F14DC2FBB006FC5A8 /* ExerciseCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExerciseCatalog.h; sourceTree = "<group>"; };
 		1A7B351014DC2FBB006FC5A8 /* ExerciseCatalog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExerciseCatalog.m; sourceTree = "<group>"; };
-		1A7B351214DC3334006FC5A8 /* ExerciseTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExerciseTrack.h; sourceTree = "<group>"; };
-		1A7B351314DC3334006FC5A8 /* ExerciseTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExerciseTrack.m; sourceTree = "<group>"; };
+		1A7B351214DC3334006FC5A8 /* CatalogTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; path = CatalogTrack.h; sourceTree = "<group>"; };
+		1A7B351314DC3334006FC5A8 /* CatalogTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatalogTrack.m; sourceTree = "<group>"; };
 		1A7B351914DC570E006FC5A8 /* TrackDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackDetailViewController.xib; sourceTree = "<group>"; };
 		1A7B351B14DC5742006FC5A8 /* TrackDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackDetailViewController.h; sourceTree = "<group>"; };
 		1A7B351C14DC5743006FC5A8 /* TrackDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackDetailViewController.m; sourceTree = "<group>"; };
@@ -88,6 +93,9 @@
 		1A7B34F114DC27AF006FC5A8 /* MusashiClient */ = {
 			isa = PBXGroup;
 			children = (
+				1A49647714E57082004202E8 /* MainMenuViewController.h */,
+				1A49647814E57082004202E8 /* MainMenuViewController.m */,
+				1A49647914E57082004202E8 /* MainMenuViewController.xib */,
 				1A7B34FA14DC27AF006FC5A8 /* AppDelegate.h */,
 				1A7B34FB14DC27AF006FC5A8 /* AppDelegate.m */,
 				1A7B350C14DC2C07006FC5A8 /* CatalogViewController.h */,
@@ -95,8 +103,8 @@
 				1A7B351914DC570E006FC5A8 /* TrackDetailViewController.xib */,
 				1A7B351B14DC5742006FC5A8 /* TrackDetailViewController.h */,
 				1A7B351C14DC5743006FC5A8 /* TrackDetailViewController.m */,
-				1A7B351214DC3334006FC5A8 /* ExerciseTrack.h */,
-				1A7B351314DC3334006FC5A8 /* ExerciseTrack.m */,
+				1A7B351214DC3334006FC5A8 /* CatalogTrack.h */,
+				1A7B351314DC3334006FC5A8 /* CatalogTrack.m */,
 				1A7B350F14DC2FBB006FC5A8 /* ExerciseCatalog.h */,
 				1A7B351014DC2FBB006FC5A8 /* ExerciseCatalog.m */,
 				1A7B34F214DC27AF006FC5A8 /* Supporting Files */,
@@ -170,6 +178,7 @@
 				1A7B34F614DC27AF006FC5A8 /* InfoPlist.strings in Resources */,
 				1A7B350314DC27CB006FC5A8 /* MainWindow.xib in Resources */,
 				1A7B351A14DC570E006FC5A8 /* TrackDetailViewController.xib in Resources */,
+				1A49647B14E57082004202E8 /* MainMenuViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,8 +193,9 @@
 				1A7B34FC14DC27AF006FC5A8 /* AppDelegate.m in Sources */,
 				1A7B350E14DC2C07006FC5A8 /* CatalogViewController.m in Sources */,
 				1A7B351114DC2FBB006FC5A8 /* ExerciseCatalog.m in Sources */,
-				1A7B351414DC3334006FC5A8 /* ExerciseTrack.m in Sources */,
+				1A7B351414DC3334006FC5A8 /* CatalogTrack.m in Sources */,
 				1A7B351D14DC5743006FC5A8 /* TrackDetailViewController.m in Sources */,
+				1A49647A14E57082004202E8 /* MainMenuViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +265,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MusashiClient/MusashiClient-Prefix.pch";
 				INFOPLIST_FILE = "MusashiClient/MusashiClient-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -267,6 +278,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MusashiClient/MusashiClient-Prefix.pch";
 				INFOPLIST_FILE = "MusashiClient/MusashiClient-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

@@ -7,7 +7,7 @@
 //
 
 #import "ExerciseCatalog.h"
-#import "ExerciseTrack.h"
+#import "CatalogTrack.h"
 
 @interface ExerciseCatalog ()
 - (void)extractTracks:(NSArray *)trackData;
@@ -29,7 +29,7 @@
 {
     tracks = [[NSMutableArray alloc] init];
     for (NSDictionary *props in trackData) {
-        ExerciseTrack *trk = [[ExerciseTrack alloc] init];
+        CatalogTrack *trk = [[CatalogTrack alloc] init];
         trk.information = props;
         [tracks addObject:trk];
     }

@@ -8,17 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-@class ExerciseTrack;
+@class CatalogTrack;
 
 @interface TrackDetailViewController : UIViewController
 {
-    
+
 }
 @property (weak, nonatomic) IBOutlet UILabel *releaseLabel;
 @property (weak, nonatomic) IBOutlet UILabel *trackLabel;
 @property (weak, nonatomic) IBOutlet UILabel *songLabel;
 @property (weak, nonatomic) IBOutlet UILabel *durationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *typeLabel;
-@property (nonatomic, strong) ExerciseTrack *track;
+@property (nonatomic, strong) CatalogTrack *track;
 - (id)initForNewTrack:(BOOL)isNew;
 @end

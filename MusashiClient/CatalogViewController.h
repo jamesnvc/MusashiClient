@@ -14,6 +14,7 @@
 {
     NSURLConnection *connection;
     NSMutableData *jsonData;
+    UIActivityIndicatorView *loadingSpinner;
     ExerciseCatalog *catalog;
 }
 @property (nonatomic, strong) ExerciseCatalog *catalog;

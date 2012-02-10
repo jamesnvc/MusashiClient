@@ -7,19 +7,19 @@
 //
 
 #import "AppDelegate.h"
-#import "CatalogViewController.h"
+#import "MainMenuViewController.h"
 
 @implementation AppDelegate
 
 @synthesize window = _window;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)application:(UIApplication *)application 
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    CatalogViewController *cvc = [[CatalogViewController alloc] 
-                                  initWithStyle:UITableViewStylePlain];
     UINavigationController *masterNav = [[UINavigationController alloc]
-                                         initWithRootViewController:cvc];
-    [self.window setRootViewController:masterNav];    
+                                         initWithRootViewController:
+                                         [[MainMenuViewController alloc] init]];
+    [self.window setRootViewController:masterNav]; 
     [self.window makeKeyAndVisible];
     return YES;
 }

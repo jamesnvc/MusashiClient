@@ -8,7 +8,7 @@
 
 #import "CatalogViewController.h"
 #import "ExerciseCatalog.h"
-#import "ExerciseTrack.h"
+#import "CatalogTrack.h"
 #import "TrackDetailViewController.h"
 
 @implementation CatalogViewController
@@ -21,6 +21,13 @@
 {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
+        loadingSpinner = 
+        [[UIActivityIndicatorView alloc] 
+         initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        loadingSpinner.hidesWhenStopped = YES;
+        loadingSpinner.frame = CGRectMake(0.0, 0.0, 40.0, 40.0);
+        loadingSpinner.center = self.view.center;
+        [self.view addSubview:loadingSpinner];
         [self fetchCatalog];
         [self.navigationItem setTitle:@"Track Catalog"];
     }
@@ -49,7 +56,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:@"UITableViewCell"];
     }
-    ExerciseTrack *track = [catalog.tracks objectAtIndex:indexPath.row];
+    CatalogTrack *track = [catalog.tracks objectAtIndex:indexPath.row];
     NSString *cellTitle = [NSString stringWithFormat:@"Release %@/Track %@",
                            [track.information objectForKey:@"release"],
                            [track.information objectForKey:@"sequence"]];
@@ -60,11 +67,17 @@
 - (void)tableView:(UITableView *)tableView 
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ExerciseTrack *track = [catalog.tracks objectAtIndex:indexPath.row];
+    CatalogTrack *track = [catalog.tracks objectAtIndex:indexPath.row];
     TrackDetailViewController *tvc = [[TrackDetailViewController alloc]
                                       initForNewTrack:YES];
     tvc.track = track;
     [self.navigationController pushViewController:tvc animated:YES];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
 }
 
 #pragma mark fetching
@@ -80,6 +93,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                   initWithRequest:req 
                   delegate:self
                   startImmediately:YES];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [loadingSpinner startAnimating];
+    
 }
 
 - (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data
@@ -107,6 +123,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }    
     jsonData = nil;
     connection = nil;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [loadingSpinner stopAnimating];
     [self.tableView reloadData];
 }
 
@@ -121,6 +139,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                                                 delegate:nil
                                        cancelButtonTitle:@"OK"
                                        otherButtonTitles: nil];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [loadingSpinner stopAnimating];
     [av show];
 }
 
