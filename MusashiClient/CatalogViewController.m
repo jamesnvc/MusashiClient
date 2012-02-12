@@ -105,8 +105,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)fetchSelectedFullTracks
 {
     NSArray *selected = nil;
-    
-
 }
 
 - (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data

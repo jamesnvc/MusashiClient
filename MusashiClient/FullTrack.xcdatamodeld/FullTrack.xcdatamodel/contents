@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="878" systemVersion="11C74" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Block" syncable="YES">
+        <attribute name="blockDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sequenceNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="sequences" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Sequence" inverseName="block" inverseEntity="Sequence" syncable="YES"/>
+        <relationship name="track" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="FullTrack" inverseName="blocks" inverseEntity="FullTrack" syncable="YES"/>
+    </entity>
+    <entity name="FullTrack" representedClassName="FullTrack" syncable="YES">
+        <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="length_minutes" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="length_seconds" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="59" defaultValueString="0" syncable="YES"/>
+        <attribute name="pdfImage" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="releaseNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="sequenceNumber" optional="YES" attributeType="Integer 16" minValueString="1" defaultValueString="1" syncable="YES"/>
+        <attribute name="song" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="blocks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Block" inverseName="track" inverseEntity="Block" syncable="YES"/>
+    </entity>
+    <entity name="Move" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="moveDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sequenceNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="sequence" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Sequence" inverseName="moves" inverseEntity="Sequence" syncable="YES"/>
+    </entity>
+    <entity name="Sequence" syncable="YES">
+        <attribute name="gear" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="reps" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="sequenceDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="start_time" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="block" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Block" inverseName="sequences" inverseEntity="Block" syncable="YES"/>
+        <relationship name="moves" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Move" inverseName="sequence" inverseEntity="Move" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="FullTrack" positionX="160" positionY="192" width="128" height="165"/>
+        <element name="Block" positionX="342" positionY="327" width="128" height="105"/>
+        <element name="Sequence" positionX="511" positionY="414" width="128" height="135"/>
+        <element name="Move" positionX="675" positionY="552" width="128" height="105"/>
+    </elements>
+</model>
