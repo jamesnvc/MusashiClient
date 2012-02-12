@@ -7,26 +7,32 @@
 //
 
 #import "CatalogViewController.h"
-#import "ExerciseCatalog.h"
+#import "PreviewCatalog.h"
 #import "CatalogTrack.h"
 #import "TrackDetailViewController.h"
+
+static NSURL *apiBaseURL = nil;
 
 @implementation CatalogViewController
 
 @synthesize catalog;
 
-#pragma mark lifecycle
+#pragma mark - Lifecycle
 
 - (id)init
 {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
+        apiBaseURL = [NSURL URLWithString:
+                      @"http://smooth-rain-7517.herokuapp.com"];
         loadingSpinner = 
         [[UIActivityIndicatorView alloc] 
          initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         loadingSpinner.hidesWhenStopped = YES;
+        loadingSpinner.color = [UIColor blackColor];
         loadingSpinner.frame = CGRectMake(0.0, 0.0, 40.0, 40.0);
-        loadingSpinner.center = self.view.center;
+        loadingSpinner.center = CGPointMake(self.view.center.x, 
+                                            self.view.center.y - 40.0);
         [self.view addSubview:loadingSpinner];
         [self fetchCatalog];
         [self.navigationItem setTitle:@"Track Catalog"];
@@ -39,7 +45,7 @@
     return [self init];
 }
 
-#pragma mark display
+#pragma mark - Display
 
 - (NSInteger)tableView:(UITableView *)tableView 
  numberOfRowsInSection:(NSInteger)section
@@ -80,22 +86,27 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     return YES;
 }
 
-#pragma mark fetching
+#pragma mark - Data fetching
 
 - (void)fetchCatalog
 {
     jsonData = [[NSMutableData alloc] init];
-    NSURL *url = [NSURL URLWithString:
-                  @"http://smooth-rain-7517.herokuapp.com/api"
-                  @"/get/catalog"];
+    NSURL *url = [NSURL URLWithString:@"/api/get/catalog" relativeToURL:apiBaseURL];
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
-    connection = [[NSURLConnection alloc] 
+    previewConn = [[NSURLConnection alloc] 
                   initWithRequest:req 
                   delegate:self
                   startImmediately:YES];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [loadingSpinner startAnimating];
     
+}
+
+- (void)fetchSelectedFullTracks
+{
+    NSArray *selected = nil;
+    
+
 }
 
 - (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data
@@ -106,7 +117,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn
 {
     NSError *err;
-    catalog = [[ExerciseCatalog alloc] initWithData:[NSJSONSerialization 
+    catalog = [[PreviewCatalog alloc] initWithData:[NSJSONSerialization 
                                                      JSONObjectWithData:jsonData
                                                      options:0
                                                      error:&err]];
@@ -122,7 +133,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [av show];
     }    
     jsonData = nil;
-    connection = nil;
+    previewConn = nil;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [loadingSpinner stopAnimating];
     [self.tableView reloadData];
@@ -130,7 +141,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error
 {
-    connection = nil;
+    previewConn = nil;
     jsonData = nil;
     NSString *errorString = [NSString stringWithFormat:@"Fetch failed: %@",
                              [error localizedDescription]];

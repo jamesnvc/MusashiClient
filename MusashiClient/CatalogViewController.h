@@ -8,15 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-@class ExerciseCatalog;
+@class PreviewCatalog;
 
 @interface CatalogViewController : UITableViewController
 {
-    NSURLConnection *connection;
+    NSURLConnection *previewConn;
+    NSURLConnection *fullConn;
     NSMutableData *jsonData;
     UIActivityIndicatorView *loadingSpinner;
-    ExerciseCatalog *catalog;
+    PreviewCatalog *catalog;
 }
-@property (nonatomic, strong) ExerciseCatalog *catalog;
+@property (nonatomic, strong) PreviewCatalog *catalog;
 - (void)fetchCatalog;
+- (void)fetchSelectedFullTracks;
 @end
