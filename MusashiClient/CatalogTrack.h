@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class CatalogViewCell;
+
 @interface CatalogTrack : NSObject
 {
     NSDictionary *information;
 }
 @property (nonatomic, strong) NSDictionary *information;
+@property (nonatomic, weak) CatalogViewCell *cell;
+@property (nonatomic) BOOL enqueued;
 @end

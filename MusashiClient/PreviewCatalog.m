@@ -31,6 +31,7 @@
     for (NSDictionary *props in trackData) {
         CatalogTrack *trk = [[CatalogTrack alloc] init];
         trk.information = props;
+        trk.enqueued = NO;
         [tracks addObject:trk];
     }
 }

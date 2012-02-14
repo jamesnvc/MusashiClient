@@ -10,6 +10,8 @@
 #import "PreviewCatalog.h"
 #import "CatalogTrack.h"
 #import "TrackDetailViewController.h"
+#import "CatalogViewCell.h"
+#import "FullTrackStore.h"
 
 static NSURL *apiBaseURL = nil;
 
@@ -25,6 +27,11 @@ static NSURL *apiBaseURL = nil;
     if (self) {
         apiBaseURL = [NSURL URLWithString:
                       @"http://smooth-rain-7517.herokuapp.com"];
+        executeBtn = [[UIBarButtonItem alloc] 
+                      initWithTitle:@"Execute"
+                      style:UIBarButtonItemStylePlain
+                      target:self
+                      action:@selector(fetchSelectedFullTracks)];
         loadingSpinner = 
         [[UIActivityIndicatorView alloc] 
          initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -56,17 +63,15 @@ static NSURL *apiBaseURL = nil;
 - (UITableViewCell *)tableView:(UITableView *)tableView 
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:
-                             @"UITableViewCell"];
+    CatalogViewCell *cell = [tableView dequeueReusableCellWithIdentifier:
+                             @"CatalogViewCell"];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                      reuseIdentifier:@"UITableViewCell"];
+        cell = [[CatalogViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:@"CatalogViewCell"];
     }
     CatalogTrack *track = [catalog.tracks objectAtIndex:indexPath.row];
-    NSString *cellTitle = [NSString stringWithFormat:@"Release %@/Track %@",
-                           [track.information objectForKey:@"release"],
-                           [track.information objectForKey:@"sequence"]];
-    [cell.textLabel setText:cellTitle];
+    [cell setTrack:track];
+    [cell setContainingController:self];
     return cell;
 }
 
@@ -86,12 +91,20 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     return YES;
 }
 
+- (void)displayExecuteDialog
+{
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = 
+    executeBtn;
+    [self.view setNeedsDisplay];
+}
+
 #pragma mark - Data fetching
 
 - (void)fetchCatalog
 {
     jsonData = [[NSMutableData alloc] init];
-    NSURL *url = [NSURL URLWithString:@"/api/get/catalog" relativeToURL:apiBaseURL];
+    NSURL *url = [NSURL URLWithString:@"/api/get/catalog" 
+                        relativeToURL:apiBaseURL];
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
     previewConn = [[NSURLConnection alloc] 
                   initWithRequest:req 
@@ -104,7 +117,27 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)fetchSelectedFullTracks
 {
-    NSArray *selected = nil;
+    NSArray *selected = [catalog.tracks 
+                         filteredArrayUsingPredicate:
+                         [NSPredicate 
+                          predicateWithBlock:^BOOL(id obj, NSDictionary *d) {
+                              return ((CatalogTrack *)obj).enqueued;
+                          }]];
+    NSMutableArray *track_ids = [[NSMutableArray alloc] init];
+    NSMutableDictionary *id_track_dict = [[NSMutableDictionary alloc] 
+                                          initWithCapacity:[selected count]];
+    for (CatalogTrack *trk in selected) {
+        NSNumber *track_id = [trk.information objectForKey:@"id"];
+        [track_ids addObject:track_id];
+        [id_track_dict setObject:trk forKey:track_id];
+        [trk.cell startDownloading];
+    }
+    [[FullTrackStore defaultStore] 
+     fetchTracks:track_ids
+     withCallback:^(NSNumber *tid) {
+         CatalogTrack *trk = [id_track_dict objectForKey:tid];
+         [trk.cell downloadFinished];
+     }];
 }
 
 - (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data

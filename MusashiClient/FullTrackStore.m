@@ -147,7 +147,7 @@ static FullTrackStore *defaultStore = nil;
     recievedData = nil;
     connection = nil;
     [recievedTracks enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        waitingCallback(obj); 
+        waitingCallback([obj objectForKey:@"id"]);
     }];
     waitingCallback = nil;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;

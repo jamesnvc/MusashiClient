@@ -17,8 +17,10 @@
     NSMutableData *jsonData;
     UIActivityIndicatorView *loadingSpinner;
     PreviewCatalog *catalog;
+    UIBarButtonItem *executeBtn;
 }
 @property (nonatomic, strong) PreviewCatalog *catalog;
 - (void)fetchCatalog;
 - (void)fetchSelectedFullTracks;
+- (void)displayExecuteDialog;
 @end

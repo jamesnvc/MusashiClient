@@ -10,6 +10,6 @@
 
 @implementation CatalogTrack
 
-@synthesize information;
+@synthesize information, enqueued, cell;
 
 @end

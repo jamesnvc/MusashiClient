@@ -9,12 +9,23 @@
 #import <UIKit/UIKit.h>
 
 @class CatalogTrack;
+@class CatalogViewController;
 
 @interface CatalogViewCell : UITableViewCell
 {
     UILabel *trackDescLabel;
     UIButton *selectBtn;
     CatalogTrack *track;
+    UIImage *downloadIcon;
+    UIImage *queuedIcon;
+    UIImage *haveIcon;
+    UIActivityIndicatorView *spinner;
+    __weak CatalogViewController *containingController;
 }
+@property (nonatomic) BOOL enqueued;
+@property (nonatomic, weak) CatalogViewController *containingController;
 - (void)setTrack:(CatalogTrack *)trk;
+- (void)toggleStatus:(id)sender;
+- (void)downloadFinished;
+- (void)startDownloading;
 @end
