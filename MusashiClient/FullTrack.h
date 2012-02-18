@@ -12,6 +12,7 @@
 
 @interface FullTrack : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * trackId;
 @property (nonatomic, retain) NSNumber * releaseNumber;
 @property (nonatomic, retain) NSNumber * sequenceNumber;
 @property (nonatomic, retain) NSString * song;

@@ -9,7 +9,8 @@
 #import "CatalogViewController.h"
 #import "PreviewCatalog.h"
 #import "CatalogTrack.h"
-#import "TrackDetailViewController.h"
+#import "PreviewTrackDetailViewController.h"
+#import "FullTrackDetailViewController.h"
 #import "CatalogViewCell.h"
 #import "FullTrackStore.h"
 
@@ -78,11 +79,37 @@ static NSURL *apiBaseURL = nil;
 - (void)tableView:(UITableView *)tableView 
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    FullTrackStore *store = [FullTrackStore defaultStore];
     CatalogTrack *track = [catalog.tracks objectAtIndex:indexPath.row];
-    TrackDetailViewController *tvc = [[TrackDetailViewController alloc]
-                                      initForNewTrack:YES];
-    tvc.track = track;
-    [self.navigationController pushViewController:tvc animated:YES];
+    NSNumber *track_id = [track.information objectForKey:@"id"];    
+    if ([store isLocalTrack:track_id]) {
+        FullTrackDetailViewController *tvc = [[FullTrackDetailViewController 
+                                               alloc] init];
+        tvc.track = [store trackWithId:track_id];
+        [self.navigationController pushViewController:tvc animated:YES];
+    } else {
+        PreviewTrackDetailViewController *tvc = [[PreviewTrackDetailViewController alloc]
+                                                 initForNewTrack:YES];
+        tvc.track = track;
+        [self.navigationController pushViewController:tvc animated:YES];
+    }
+}
+
+/* TODO: Find a less hideous way of doing this */
+- (void)showLocalTracks
+{
+    NSArray *trackIds = [[FullTrackStore defaultStore] allTracks];
+    NSMutableArray *spoofedCatalog = [[NSMutableArray alloc] init];
+    for (NSManagedObject *track in trackIds) {
+        [spoofedCatalog addObject:[[NSDictionary alloc]
+                                   initWithObjectsAndKeys:
+                                   [track valueForKey:@"trackId"], @"id",
+                                   [track valueForKey:@"releaseNumber"], @"release",
+                                   [track valueForKey:@"sequenceNumber"], @"sequence",
+                                   nil]];
+    }
+    catalog = [[PreviewCatalog alloc] initWithData:spoofedCatalog];
+    [self.tableView reloadData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -93,8 +120,14 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)displayExecuteDialog
 {
-    self.navigationController.navigationBar.topItem.rightBarButtonItem = 
-    executeBtn;
+    self.navigationController.navigationBar.topItem.rightBarButtonItem 
+      = executeBtn;
+    [self.view setNeedsDisplay];
+}
+
+- (void)hideExecuteDialog
+{
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = nil;
     [self.view setNeedsDisplay];
 }
 
@@ -117,6 +150,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)fetchSelectedFullTracks
 {
+    executeBtn.enabled = NO;
+    executeBtn.title = @"Executing...";
     NSArray *selected = [catalog.tracks 
                          filteredArrayUsingPredicate:
                          [NSPredicate 
@@ -132,11 +167,19 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [id_track_dict setObject:trk forKey:track_id];
         [trk.cell startDownloading];
     }
+    __block NSUInteger items_remaining = [selected count];
     [[FullTrackStore defaultStore] 
      fetchTracks:track_ids
      withCallback:^(NSNumber *tid) {
          CatalogTrack *trk = [id_track_dict objectForKey:tid];
          [trk.cell downloadFinished];
+         trk.enqueued = NO;
+         items_remaining -= 1;
+         if (items_remaining == 0) {
+             executeBtn.enabled = YES;
+             executeBtn.title = @"Execute";
+             [self hideExecuteDialog];
+         }
      }];
 }
 
@@ -184,6 +227,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [loadingSpinner stopAnimating];
     [av show];
+    [self showLocalTracks];
 }
 
 @end

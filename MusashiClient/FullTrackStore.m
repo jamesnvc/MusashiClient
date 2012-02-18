@@ -7,12 +7,16 @@
 //
 
 #import "FullTrackStore.h"
+#import "FullTrack.h"
 
-static NSURL *apiBaseURL = nil;
+@interface FullTrackStore ()
+- (NSString *)fullTracksArchivePath;
+@end
 
 @implementation FullTrackStore
 
 static FullTrackStore *defaultStore = nil;
+static NSURL *apiBaseURL = nil;
 
 + (FullTrackStore *)defaultStore
 {
@@ -66,61 +70,178 @@ static FullTrackStore *defaultStore = nil;
     return self;
 }
 
-#pragma mark - Querying datastore
+#pragma mark - Interacting with the data store
 
 - (BOOL)isLocalTrack:(NSNumber *)trackId
 {
-    return NO;
+    NSFetchRequest *req = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"FullTrack"
+                                   inManagedObjectContext:context];
+    [req setEntity:entity];
+    NSPredicate *pred = [NSPredicate 
+                         predicateWithFormat:@"trackId == %@", trackId];
+    [req setPredicate:pred];
+    NSError *err = nil;
+    NSArray *res = [context executeFetchRequest:req error:&err];
+    return (res && res.count);
 }
 
-- (void)fetchTrack:(NSNumber *)trackNumber
+- (BOOL)saveChanges
 {
-    [self fetchTrack:trackNumber withCallback:^(NSNumber *t){}];
-}
-
-- (void)fetchTrack:(NSNumber *)trackId
-      withCallback:(TrackStoreCallback)callback
-{
-    NSArray *trackIds = [NSArray arrayWithObject:trackId];
-    [self fetchTracks:trackIds withCallback:callback];
-}
-
-- (void)fetchTracks:(NSArray *)trackList
-{
-    [self fetchTracks:trackList withCallback:^(NSNumber *n){}];
-}
-
-- (void)fetchTracks:(NSArray *)trackList
-       withCallback:(TrackStoreCallback)callback
-{
-    recievedData = [[NSMutableData alloc] init];
-    waitingCallback = callback;
-    NSURL *url = [NSURL URLWithString:@"/api/get/full"
-                        relativeToURL:apiBaseURL];
-    
-    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
-    
-    [req setHTTPMethod:@"POST"];
-    NSError *err;
-    NSString *json_ids = [[NSString alloc] initWithData:[NSJSONSerialization 
-                                                         dataWithJSONObject:trackList
-                                                         options:0 
-                                                        error:&err]
-                                               encoding:NSUTF8StringEncoding];
-                          
-    if (err) {
-        NSLog(@"Error converting array to JSON");
+    NSError *err = nil;
+    BOOL successful = [context save:&err];
+    if (!successful) {
+        NSLog(@"Error saving %@",[err localizedDescription]);
     }
-    NSString *json_escaped = [json_ids
-                              stringByAddingPercentEscapesUsingEncoding:
-                              NSUTF8StringEncoding];
-    NSString *params = [NSString stringWithFormat:@"tracks=%@", json_escaped];
-    [req setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
-    connection = [[NSURLConnection alloc]
-                  initWithRequest:req delegate:self startImmediately:YES];
+    return successful;
 }
 
-#pragma mark - Fetching data
+- (void)addSequencesWithData:(NSArray *)sequences 
+                     toBlock:(NSManagedObject *)block;
+{
+    NSInteger i = 0;
+    for (NSDictionary *sequence in sequences) {
+        NSManagedObject *newSequence = [NSEntityDescription
+                                    insertNewObjectForEntityForName:@"Sequence"
+                                             inManagedObjectContext:context];
+        NSDictionary *sameNamedValues = [sequence 
+                                         dictionaryWithValuesForKeys:
+                                         [NSArray arrayWithObjects:
+                                          @"gear", @"reps", @"length", nil]];
+        [newSequence setValuesForKeysWithDictionary:sameNamedValues];
+        [newSequence setValue:[sequence objectForKey:@"description"]
+                       forKey:@"sequenceDescription"];
+        [newSequence setValue:[NSNumber numberWithInteger:i] 
+                       forKey:@"sequenceNumber"];
+        for (NSDictionary *move in [sequence objectForKey:@"moves"]) {
+            NSManagedObject *newMove = [NSEntityDescription
+                                        insertNewObjectForEntityForName:@"Move"
+                                        inManagedObjectContext:context];
+            [newMove setValue:[move objectForKey:@"description"]
+                       forKey:@"moveDescription"];
+            [newMove setValue:[move objectForKey:@"sequence"]
+                       forKey:@"sequenceNumber"];
+            [newMove setValue:[move objectForKey:@"count"] 
+                       forKey:@"count"];
+            [newMove setValue:newSequence forKey:@"sequence"];
+        }
+        [newSequence setValue:block forKey:@"block"];
+        i += 1;
+    }
+}
+
+- (void)addBlocksWithData:(NSArray *)blocks toTrack:(FullTrack *)track
+{
+    for (NSDictionary *block in blocks) {
+        NSManagedObject *newBlock = [NSEntityDescription
+                                     insertNewObjectForEntityForName:@"Block"
+                                     inManagedObjectContext:context];
+        [newBlock setValue:[block objectForKey:@"description"] 
+                    forKey:@"blockDescription"];
+        [newBlock setValue:[block objectForKey:@"sequence"]
+                    forKey:@"sequenceNumber"];
+        [self addSequencesWithData:[block objectForKey:@"exercises"]
+                           toBlock:newBlock];
+        [track addBlocksObject:newBlock];
+    }
+}
+
+- (FullTrack *)createTrackFromData:(NSDictionary *)infoDict
+{
+    FullTrack *track = [NSEntityDescription 
+                        insertNewObjectForEntityForName:@"FullTrack" 
+                        inManagedObjectContext:context];
+    NSDictionary *sameNamedValues = [infoDict
+                                     dictionaryWithValuesForKeys:
+                                     [NSArray arrayWithObjects:@"song",
+                                      @"kind", @"length_minutes", 
+                                      @"length_seconds", nil]];
+    [track setValuesForKeysWithDictionary:sameNamedValues];
+    track.releaseNumber = [infoDict objectForKey:@"release"];
+    track.sequenceNumber = [infoDict objectForKey:@"sequence"];
+    track.trackId = [infoDict objectForKey:@"id"];
+    
+    [self addBlocksWithData:[infoDict objectForKey:@"blocks"]
+                    toTrack:track];
+    
+    [self saveChanges];
+    return track;
+}
+
+- (FullTrack *)trackWithId:(NSNumber *)trackId
+{
+    NSFetchRequest *req = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"FullTrack"
+                                   inManagedObjectContext:context];
+    [req setEntity:entity];
+    NSPredicate *pred = [NSPredicate 
+                         predicateWithFormat:@"trackId == %@", trackId];
+    [req setPredicate:pred];
+    NSError *err = nil;
+    NSArray *res = [context executeFetchRequest:req error:&err];
+    return [res lastObject];
+}
+
+- (NSArray *)tracksAtSequences:(NSNumber *)sequence
+{
+    NSFetchRequest *req = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"FullTrack"
+                                   inManagedObjectContext:context];
+    [req setEntity:entity];
+    NSPredicate *pred = [NSPredicate 
+                         predicateWithFormat:@"sequenceNumber == %@", sequence];
+    [req setPredicate:pred];
+    NSError *err = nil;
+    NSArray *results = [context executeFetchRequest:req error:&err];
+    if (err) {
+        NSLog(@"Error fetching tracks with sequence %@: %@", sequence, err);
+    }
+    return results;
+}
+
+- (NSArray *)allTracks
+{
+    NSFetchRequest *req = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"FullTrack"
+                                   inManagedObjectContext:context];
+    [req setEntity:entity];
+    NSError *err = nil;
+    NSArray *results = [context executeFetchRequest:req error:&err];
+    if (err) {
+        NSLog(@"Error fetching tracks: %@", err);
+    }
+    return results;    
+}
+
+- (NSArray *)allTrackIds
+{
+    NSFetchRequest *req = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"FullTrack"
+                                   inManagedObjectContext:context];
+    [req setEntity:entity];
+    NSError *err = nil;
+    NSArray *results = [context executeFetchRequest:req error:&err];
+    if (err) {
+        NSLog(@"Error fetching tracks: %@", err);
+    }
+    NSMutableArray *ids = [[NSMutableArray alloc] init];
+    for (NSManagedObject *track in results) {
+        [ids addObject:[track valueForKey:@"trackId"]];
+    }
+    return ids;
+}
+
+- (NSString *)fullTracksArchivePath
+{
+    return pathInDocumentDirectory(@"fulltracks.data");
+}
+
+#pragma mark - Fetching data from server
 
 - (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data
 {
@@ -146,8 +267,10 @@ static FullTrackStore *defaultStore = nil;
     }
     recievedData = nil;
     connection = nil;
-    [recievedTracks enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        waitingCallback([obj objectForKey:@"id"]);
+    [recievedTracks 
+     enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+         [self createTrackFromData:obj];
+         waitingCallback([obj objectForKey:@"id"]);
     }];
     waitingCallback = nil;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -167,6 +290,43 @@ static FullTrackStore *defaultStore = nil;
                                        otherButtonTitles: nil];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [av show];
+}
+
+- (void)fetchTrack:(NSNumber *)trackId
+      withCallback:(TrackStoreCallback)callback
+{
+    NSArray *trackIds = [NSArray arrayWithObject:trackId];
+    [self fetchTracks:trackIds withCallback:callback];
+}
+
+- (void)fetchTracks:(NSArray *)trackList
+       withCallback:(TrackStoreCallback)callback
+{
+    recievedData = [[NSMutableData alloc] init];
+    waitingCallback = callback;
+    NSURL *url = [NSURL URLWithString:@"/api/get/full"
+                        relativeToURL:apiBaseURL];
+    
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
+    
+    [req setHTTPMethod:@"POST"];
+    NSError *err;
+    NSString *json_ids = [[NSString alloc] initWithData:[NSJSONSerialization 
+                                                         dataWithJSONObject:trackList
+                                                         options:0 
+                                                         error:&err]
+                                               encoding:NSUTF8StringEncoding];
+    
+    if (err) {
+        NSLog(@"Error converting array to JSON");
+    }
+    NSString *json_escaped = [json_ids
+                              stringByAddingPercentEscapesUsingEncoding:
+                              NSUTF8StringEncoding];
+    NSString *params = [NSString stringWithFormat:@"tracks=%@", json_escaped];
+    [req setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
+    connection = [[NSURLConnection alloc]
+                  initWithRequest:req delegate:self startImmediately:YES];
 }
 
 @end

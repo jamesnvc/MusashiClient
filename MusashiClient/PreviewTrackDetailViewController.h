@@ -1,5 +1,5 @@
 //
-//  TrackDetailViewController.h
+//  PreviewTrackDetailViewController.h
 //  MusashiClient
 //
 //  Created by James Cash on 03-02-12.
@@ -10,7 +10,7 @@
 
 @class CatalogTrack;
 
-@interface TrackDetailViewController : UIViewController
+@interface PreviewTrackDetailViewController : UIViewController
 {
 
 }

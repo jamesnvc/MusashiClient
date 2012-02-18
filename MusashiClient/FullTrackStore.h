@@ -11,9 +11,10 @@
 
 typedef void(^TrackStoreCallback)(NSNumber *);
 
+@class FullTrack;
+
 @interface FullTrackStore : NSObject
 {
-    NSMutableArray *allTracks;
     NSMutableData *recievedData;
     NSManagedObjectContext *context;
     NSManagedObjectModel *model;
@@ -21,11 +22,15 @@ typedef void(^TrackStoreCallback)(NSNumber *);
     TrackStoreCallback waitingCallback;
 }
 + (FullTrackStore *)defaultStore;
+- (BOOL)saveChanges;
+
 - (BOOL)isLocalTrack:(NSNumber *)trackId;
-- (void)fetchTrack:(NSNumber *)trackId;
 - (void)fetchTrack:(NSNumber *)trackId
       withCallback:(TrackStoreCallback)callback;
-- (void)fetchTracks:(NSArray *)trackList;
 - (void)fetchTracks:(NSArray *)trackList 
        withCallback:(TrackStoreCallback)callback;
+- (FullTrack *)trackWithId:(NSNumber *)trackId;
+- (NSArray *)tracksAtSequences:(NSNumber *)sequence;
+- (NSArray *)allTracks;
+- (NSArray *)allTrackIds;
 @end

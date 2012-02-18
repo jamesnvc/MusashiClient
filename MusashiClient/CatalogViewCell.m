@@ -74,6 +74,9 @@
     [spinner stopAnimating];
     [spinner removeFromSuperview];
     [self addSubview:selectBtn];
+    [selectBtn setImage:haveIcon forState:UIControlStateDisabled];
+    selectBtn.enabled = NO;
+    [self setNeedsDisplay];
 }
 
 - (void)layoutSubviews

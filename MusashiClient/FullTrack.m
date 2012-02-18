@@ -19,5 +19,6 @@
 @dynamic length_seconds;
 @dynamic pdfImage;
 @dynamic blocks;
+@dynamic trackId;
 
 @end

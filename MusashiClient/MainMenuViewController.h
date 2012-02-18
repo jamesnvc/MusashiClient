@@ -11,5 +11,6 @@
 @interface MainMenuViewController : UIViewController
 
 - (IBAction)viewCatalog:(id)sender;
+- (IBAction)viewWorkouts:(id)sender;
 
 @end

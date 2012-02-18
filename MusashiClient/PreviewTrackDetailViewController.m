@@ -1,23 +1,24 @@
 //
-//  TrackDetailViewController.m
+//  PreviewTrackDetailViewController.m
 //  MusashiClient
 //
 //  Created by James Cash on 03-02-12.
 //  Copyright (c) 2012 University of Toronto. All rights reserved.
 //
 
-#import "TrackDetailViewController.h"
+#import "PreviewTrackDetailViewController.h"
 #import "CatalogTrack.h"
 #import "FullTrackStore.h"
+#import "FullTrackDetailViewController.h"
 
-@implementation TrackDetailViewController
+@implementation PreviewTrackDetailViewController
 @synthesize releaseLabel, trackLabel, songLabel, durationLabel, typeLabel;
 @synthesize downloadTrackBtn;
 @synthesize track;
 
 - (id)initForNewTrack:(BOOL)isNew
 {
-    self = [super initWithNibName:@"TrackDetailViewController"
+    self = [super initWithNibName:@"PreviewTrackDetailViewController"
                            bundle:nil];
     if (self) {
     }
@@ -78,6 +79,14 @@
         [downloadTrackBtn setEnabled:NO];
         [downloadTrackBtn setHidden:NO];
         [loadingSpinner stopAnimating];
+        FullTrackDetailViewController *tvc = [[FullTrackDetailViewController
+                                               alloc] init];
+        [tvc setTrack:[store trackWithId:tid]];
+        NSMutableArray *viewCtrls = [self.navigationController.viewControllers 
+                              mutableCopy];
+        [viewCtrls replaceObjectAtIndex:([viewCtrls count] - 1)
+                             withObject:tvc];
+        self.navigationController.viewControllers = viewCtrls;
     }];
 }
 
