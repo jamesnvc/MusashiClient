@@ -19,6 +19,7 @@ typedef void(^TrackStoreCallback)(NSNumber *);
     NSManagedObjectContext *context;
     NSManagedObjectModel *model;
     NSURLConnection *connection;
+    NSMutableDictionary *pdfDatums;
     TrackStoreCallback waitingCallback;
 }
 + (FullTrackStore *)defaultStore;

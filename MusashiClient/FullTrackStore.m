@@ -11,6 +11,7 @@
 
 @interface FullTrackStore ()
 - (NSString *)fullTracksArchivePath;
+- (void)fetchPdfForTrack:(FullTrack *)track;
 @end
 
 @implementation FullTrackStore
@@ -47,6 +48,7 @@ static NSURL *apiBaseURL = nil;
     
     NSPersistentStoreCoordinator *psc = 
     [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+    pdfDatums = [[NSMutableDictionary alloc] init];
     
     NSString *path = pathInDocumentDirectory(@"store.data");
     NSURL *storeURL = [NSURL fileURLWithPath:path];
@@ -161,6 +163,9 @@ static NSURL *apiBaseURL = nil;
     track.releaseNumber = [infoDict objectForKey:@"release"];
     track.sequenceNumber = [infoDict objectForKey:@"sequence"];
     track.trackId = [infoDict objectForKey:@"id"];
+    if ([infoDict valueForKey:@"has_pdf"]) {
+        [self fetchPdfForTrack:track];
+    }
     
     [self addBlocksWithData:[infoDict objectForKey:@"blocks"]
                     toTrack:track];
@@ -243,44 +248,84 @@ static NSURL *apiBaseURL = nil;
 
 #pragma mark - Fetching data from server
 
+- (BOOL)connection:(NSURLConnection *)connection 
+canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
+{
+    return YES;
+}
+
+- (void)connection:(NSURLConnection *)connection 
+didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    NSLog(@"Got authentication challenge: %@", challenge.protectionSpace.authenticationMethod);
+    /* TODO: Factor this out into a setting */
+    NSURLCredential *credential = [NSURLCredential 
+                                   credentialWithUser:@"jamesnvc"
+                                   password:@"H4_WWuTKy*7x1a"
+                                   persistence:
+                                     NSURLCredentialPersistenceForSession];
+    [[challenge sender] useCredential:credential
+           forAuthenticationChallenge:challenge];
+}
+
 - (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data
 {
-    [recievedData appendData:data];
+    if (conn == connection) {
+        [recievedData appendData:data];
+    } else {
+        [[[pdfDatums objectForKey:[NSNumber numberWithInteger:[conn hash]]] 
+          objectAtIndex:0] appendData:data];
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn
 {
-    NSError *err;
-    NSArray *recievedTracks = [NSJSONSerialization JSONObjectWithData:recievedData
-                                                              options:0 
-                                                                error:&err];
-    if (err) {
-        NSString *errorString = [NSString 
-                                 stringWithFormat:@"Error parsing JSON: %@",
-                                 [err localizedDescription]];
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error" 
-                                                     message:errorString 
-                                                    delegate:nil
-                                           cancelButtonTitle:@"OK"
-                                           otherButtonTitles:nil];
-        [av show];
+    if (conn == connection) { /* Finished loading tracks */
+        NSError *err;
+        NSArray *recievedTracks = [NSJSONSerialization 
+                                   JSONObjectWithData:recievedData
+                                   options:0 
+                                   error:&err];
+        if (err) {
+            NSString *errorString = [NSString 
+                                     stringWithFormat:@"Error parsing JSON: %@",
+                                     [err localizedDescription]];
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error" 
+                                                         message:errorString 
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles:nil];
+            [av show];
+        }
+        recievedData = nil;
+        connection = nil;
+        [recievedTracks 
+         enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+             [self createTrackFromData:obj];
+             waitingCallback([obj objectForKey:@"id"]);
+         }];
+        waitingCallback = nil;
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    } else { /* Finished loading pdf data */
+        NSArray *dataAndTrack = [pdfDatums objectForKey:
+                                 [NSNumber numberWithInteger:[conn hash]]];
+        NSData *pdfData = [dataAndTrack objectAtIndex:0];
+        FullTrack *trk = [dataAndTrack objectAtIndex:1];
+        trk.pdfImage = pdfData;
+        [self saveChanges];
+        [pdfDatums removeObjectForKey:conn];
     }
-    recievedData = nil;
-    connection = nil;
-    [recievedTracks 
-     enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-         [self createTrackFromData:obj];
-         waitingCallback([obj objectForKey:@"id"]);
-    }];
-    waitingCallback = nil;
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error
 {
-    connection = nil;
-    recievedData = nil;
-    waitingCallback = nil;
+    if (conn == connection) {
+        connection = nil;
+        recievedData = nil;
+        waitingCallback = nil;
+    } else {
+        [pdfDatums removeObjectForKey:[NSNumber numberWithInteger:[conn hash]]];
+    }
     NSString *errorString = [NSString stringWithFormat:@"Fetch failed: %@",
                              [error localizedDescription]];
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -290,6 +335,28 @@ static NSURL *apiBaseURL = nil;
                                        otherButtonTitles: nil];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [av show];
+}
+
+- (void)fetchPdfForTrack:(FullTrack *)track
+{
+    NSURL *pdfUrl = [NSURL 
+                       URLWithString:[NSString 
+                                      stringWithFormat:
+                                      @"/s/pdfs/release%02@_track%02d.pdf",
+                                      track.releaseNumber, 
+                                      track.sequenceNumber.intValue]
+                       relativeToURL:apiBaseURL];
+    NSLog(@"Getting pdf from %@", pdfUrl);
+    NSURLRequest *req = [NSURLRequest requestWithURL:pdfUrl];
+    NSURLConnection *pdfConn = [[NSURLConnection alloc] 
+                                initWithRequest:req 
+                                delegate:self 
+                                startImmediately:NO];
+    [pdfDatums setObject:[[NSArray alloc] 
+                          initWithObjects:[[NSMutableData alloc] init], track,
+                          nil]
+                  forKey:[NSNumber numberWithInteger:[pdfConn hash]]];
+    [pdfConn start];
 }
 
 - (void)fetchTrack:(NSNumber *)trackId

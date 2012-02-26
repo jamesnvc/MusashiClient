@@ -15,6 +15,7 @@
 @synthesize kindLabel;
 @synthesize songLabel;
 @synthesize trackDurationLabel;
+@synthesize segmentCtrl;
 @synthesize blocksTable;
 @synthesize track;
 
@@ -22,7 +23,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+
     }
     return self;
 }
@@ -41,6 +42,9 @@
 {
     [super viewDidLoad];
     
+    pdfView = [[UIWebView alloc] init];
+    pdfView.scalesPageToFit = YES;
+    
     [releaseLabel 
      setText:[NSString stringWithFormat:@"Release %@", track.releaseNumber]];
     [trackLabel
@@ -52,6 +56,8 @@
               track.length_minutes, 
               [track.length_seconds intValue]]];
     [blocksTable setDataSource:self];
+    
+    segmentCtrl.selectedSegmentIndex = 0;
 }
 
 - (void)viewDidUnload
@@ -62,6 +68,7 @@
     [self setSongLabel:nil];
     [self setTrackDurationLabel:nil];
     [self setBlocksTable:nil];
+    [self setSegmentCtrl:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -177,5 +184,19 @@ titleForHeaderInSection:(NSInteger)section
     }
 
     return cell;
+}
+- (IBAction)setPdfDisplay:(id)sender 
+{
+    if (segmentCtrl.selectedSegmentIndex == 0) {
+        [pdfView removeFromSuperview];
+        return;
+    }
+    [pdfView loadData:track.pdfImage MIMEType:@"application/pdf"
+     textEncodingName:@"utf-8" baseURL:[NSURL URLWithString:@""]];
+    CGSize sz = self.view.frame.size;
+    CGFloat ctrlHegiht = segmentCtrl.frame.size.height;
+    pdfView.frame = CGRectMake(0, 0, sz.width, sz.height - ctrlHegiht);
+    [self.view addSubview:pdfView];
+        
 }
 @end
