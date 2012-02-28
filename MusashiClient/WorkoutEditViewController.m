@@ -13,6 +13,7 @@
 #import "WorkoutsStore.h"
 
 @implementation WorkoutEditViewController
+@synthesize textFields;
 @synthesize nameField;
 @synthesize workout;
 
@@ -48,12 +49,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [nameField setText:[workout name]];
+    for (UITextField *textField in textFields) {
+        FullTrack *trk = [workout 
+                          trackForSequence:[textField tag]];
+        if (trk) {
+            [textField 
+             setText:[NSString 
+                      stringWithFormat:@"Release %@",
+                      trk.releaseNumber]];
+        }
+    }
 }
 
 - (void)viewDidUnload
 {
     self.workout = nil;
     self.nameField = nil;
+    [self setTextFields:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -109,7 +121,7 @@ numberOfRowsInComponent:(NSInteger)component
     [selectedTracks setObject:track 
                        forKey:track.sequenceNumber];
     [currentField setText:[NSString stringWithFormat:@"Release %@",
-                           [track valueForKey:@"releaseNumber"]]];
+                           track.releaseNumber]];
     [pickerView removeFromSuperview];
     tracks = nil;
     currentField = nil;
@@ -126,9 +138,8 @@ numberOfRowsInComponent:(NSInteger)component
 - (IBAction)saveWorkout:(id)sender
 {
     for (FullTrack *track in [selectedTracks allValues]){
-        [workout setTrack:track 
-              forSequence:[track.sequenceNumber intValue]
-         ];
+        NSLog(@"Setting track %@", track);
+        [workout addTrack:track];
     }
     workout.name = nameField.text;
     [[WorkoutsStore defaultStore] saveChanges];

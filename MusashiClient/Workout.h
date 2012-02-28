@@ -28,5 +28,6 @@
 @property (nonatomic, retain) NSNumber * track11Id;
 @property (nonatomic, retain) NSNumber * track12Id;
 @property (nonatomic, strong) NSArray *tracks;
-- (void)setTrack:(FullTrack *)track forSequence:(NSInteger)idx;
+- (void)addTrack:(FullTrack *)track;
+- (FullTrack *)trackForSequence:(NSInteger)sequence;
 @end

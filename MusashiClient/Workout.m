@@ -7,7 +7,8 @@
 //
 
 #import "Workout.h"
-
+#import "FullTrack.h"
+#import "FullTrackStore.h"
 
 @implementation Workout
 
@@ -25,38 +26,6 @@
 @dynamic track10Id;
 @dynamic track11Id;
 @dynamic track12Id;
-
-- (SEL)setterForTrack:(NSInteger)idx
-{
-    switch (idx) {
-        case 1:
-            return @selector(setTrack1Id);
-        case 2:
-            return @selector(setTrack2Id);
-        case 3:
-            return @selector(setTrack3Id:);
-        case 4:
-            return @selector(setTrack4Id);
-        case 5:
-            return @selector(setTrack5Id);
-        case 6:
-            return @selector(setTrack6Id);
-        case 7:
-            return @selector(setTrack7Id);
-        case 8:
-            return @selector(setTrack8Id);
-        case 9:
-            return @selector(setTrack9Id);
-        case 10:
-            return @selector(setTrack10Id);
-        case 11:
-            return @selector(setTrack11Id);
-        case 12:
-            return @selector(setTrack12Id);
-        default:
-            return @selector(setTrack1Id);
-    }
-}
 
 - (NSArray *)tracks
 {
@@ -78,15 +47,103 @@
 
 - (void)setTracks:(NSArray *)tracks
 {
-    assert([tracks count] == 12);
-    for (int i = 1; i <= 12; i++) {
-        [self performSelector:[self setterForTrack:i] 
-                   withObject:[tracks objectAtIndex:i]];
+    for (FullTrack *track in tracks) {
+        [self addTrack:track];
     }
 }
 
-- (void)setTrack:(FullTrack *)track forSequence:(NSInteger)idx
+- (void)addTrack:(FullTrack *)track
 {
-    [self performSelector:[self setterForTrack:idx] withObject:track];
+    switch ([track.sequenceNumber intValue]) {
+        case 1:
+            [self setTrack1Id:track.trackId];
+            break;
+        case 2:
+            [self setTrack2Id:track.trackId];
+            break;
+        case 3:
+            [self setTrack3Id:track.trackId];
+            break;
+        case 4:
+            [self setTrack4Id:track.trackId];
+            break;
+        case 5:
+            [self setTrack5Id:track.trackId];
+            break;
+        case 6:
+            [self setTrack6Id:track.trackId];
+            break;
+        case 7:
+            [self setTrack7Id:track.trackId];
+            break;
+        case 8:
+            [self setTrack8Id:track.trackId];
+            break;
+        case 9:
+            [self setTrack9Id:track.trackId];
+            break;
+        case 10:
+            [self setTrack10Id:track.trackId];
+            break;
+        case 11:
+            [self setTrack11Id:track.trackId];
+            break;
+        case 12:
+            [self setTrack12Id:track.trackId];
+            break;
+        default:
+            NSLog(@"Track with an unexpected sequence number: %@", track);
+            break;
+    }
+}
+
+- (FullTrack *)trackForSequence:(NSInteger)sequence
+{
+    NSNumber *trackId = nil;
+    switch (sequence) {
+        case 1:
+            trackId = [self track1Id];
+            break;
+        case 2:
+            trackId = [self track2Id];
+            break;
+        case 3:
+            trackId = [self track3Id];
+            break;
+        case 4:
+            trackId = [self track4Id];
+            break;
+        case 5:
+            trackId = [self track5Id];
+            break;
+        case 6:
+            trackId = [self track6Id];
+            break;
+        case 7:
+            trackId = [self track7Id];
+            break;
+        case 8:
+            trackId = [self track8Id];
+            break;
+        case 9:
+            trackId = [self track9Id];
+            break;
+        case 10:
+            trackId = [self track10Id];
+            break;
+        case 11:
+            trackId = [self track11Id];
+            break;
+        case 12:
+            trackId = [self track12Id];
+            break;
+        default:
+            NSLog(@"Unexpected sequence number: %d", sequence);
+            break;
+    }
+    if (trackId) {
+        return [[FullTrackStore defaultStore] trackWithId:trackId];
+    }
+    return nil;
 }
 @end

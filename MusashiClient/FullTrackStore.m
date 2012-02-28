@@ -353,7 +353,6 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
                                       track.releaseNumber, 
                                       track.sequenceNumber.intValue]
                        relativeToURL:apiBaseURL];
-    NSLog(@"Getting pdf from %@", pdfUrl);
     NSURLRequest *req = [NSURLRequest requestWithURL:pdfUrl];
     NSURLConnection *pdfConn = [[NSURLConnection alloc] 
                                 initWithRequest:req 

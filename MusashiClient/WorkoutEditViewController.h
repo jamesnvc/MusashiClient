@@ -22,4 +22,6 @@
 @property (nonatomic, retain) Workout *workout;
 - (IBAction)showPickerView:(id)sender;
 - (IBAction)saveWorkout:(id)sender;
+@property (strong, nonatomic) IBOutletCollection(UITextField) NSArray *textFields;
+
 @end

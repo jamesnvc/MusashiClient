@@ -41,7 +41,7 @@
 						<string key="NSFrame">{{92, 105}, {137, 49}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="470622033"/>
+						<reference key="NSNextKeyView" ref="859146975"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -49,7 +49,7 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
 						<string key="IBUINormalTitle">Catalog</string>
-						<object class="NSColor" key="IBUIHighlightedTitleColor" id="418774837">
+						<object class="NSColor" key="IBUIHighlightedTitleColor" id="272748233">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
 						</object>
@@ -57,21 +57,21 @@
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 						</object>
-						<object class="NSColor" key="IBUINormalTitleShadowColor" id="676690956">
+						<object class="NSColor" key="IBUINormalTitleShadowColor" id="74444837">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="972834049">
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="340349496">
 							<int key="type">2</int>
 							<double key="pointSize">15</double>
 						</object>
-						<object class="NSFont" key="IBUIFont" id="270440546">
+						<object class="NSFont" key="IBUIFont" id="699189925">
 							<string key="NSName">Helvetica-Bold</string>
 							<double key="NSSize">15</double>
 							<int key="NSfFlags">16</int>
 						</object>
 					</object>
-					<object class="IBUIButton" id="470622033">
+					<object class="IBUIButton" id="859146975">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{92, 208}, {138, 49}}</string>
@@ -84,15 +84,15 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUINormalTitle">Create Workout</string>
-						<reference key="IBUIHighlightedTitleColor" ref="418774837"/>
+						<string key="IBUINormalTitle">Workouts</string>
+						<reference key="IBUIHighlightedTitleColor" ref="272748233"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 						</object>
-						<reference key="IBUINormalTitleShadowColor" ref="676690956"/>
-						<reference key="IBUIFontDescription" ref="972834049"/>
-						<reference key="IBUIFont" ref="270440546"/>
+						<reference key="IBUINormalTitleShadowColor" ref="74444837"/>
+						<reference key="IBUIFontDescription" ref="340349496"/>
+						<reference key="IBUIFont" ref="699189925"/>
 					</object>
 				</array>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
@@ -184,7 +184,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">viewWorkouts:</string>
-						<reference key="source" ref="470622033"/>
+						<reference key="source" ref="859146975"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -204,7 +204,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 						<reference key="object" ref="191373211"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="661913945"/>
-							<reference ref="470622033"/>
+							<reference ref="859146975"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -226,7 +226,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6</int>
-						<reference key="object" ref="470622033"/>
+						<reference key="object" ref="859146975"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 				</array>
