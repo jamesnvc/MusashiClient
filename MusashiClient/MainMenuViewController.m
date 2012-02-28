@@ -8,7 +8,7 @@
 
 #import "MainMenuViewController.h"
 #import "CatalogViewController.h"
-#import "WorkoutViewController.h"
+#import "WorkoutsListViewController.h"
 
 @implementation MainMenuViewController
 
@@ -62,7 +62,8 @@
 - (IBAction)viewWorkouts:(id)sender 
 {
     [self.navigationController
-     pushViewController:[[WorkoutViewController alloc] init]
+     pushViewController:[[WorkoutsListViewController 
+                          alloc] init]
      animated:YES];
 }
 

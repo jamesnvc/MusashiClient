@@ -12,7 +12,7 @@
 #import "FullTrackStore.h"
 
 @implementation CatalogViewCell
-@synthesize enqueued, containingController;
+@synthesize enqueued, containingController, deletePending;
 
 - (id)initWithStyle:(UITableViewCellStyle)style 
     reuseIdentifier:(NSString *)reuseIdentifier
@@ -37,20 +37,29 @@
         downloadIcon = [UIImage imageNamed:@"download.png"];
         queuedIcon = [UIImage imageNamed:@"inbox.png"];
         haveIcon = [UIImage imageNamed:@"house.png"];
+        deleteIcon = [UIImage imageNamed:@"delete.png"];
+        isLocal = NO;
+        deletePending = NO;
     }
     return self;
 }
 
 - (void)toggleStatus:(id)sender
 {
-    enqueued = !enqueued;
-    track.enqueued = enqueued;
-    if (enqueued) {
-        [selectBtn setImage:queuedIcon
-                   forState:UIControlStateNormal];
+    if (isLocal) {
+        [selectBtn setImage:deleteIcon forState:UIControlStateNormal];
+        deletePending = YES;
+        track.deletePending = YES;
     } else {
-        [selectBtn setImage:downloadIcon
-                   forState:UIControlStateNormal];
+        enqueued = !enqueued;
+        track.enqueued = enqueued;
+        if (enqueued) {
+            [selectBtn setImage:queuedIcon
+                       forState:UIControlStateNormal];
+        } else {
+            [selectBtn setImage:downloadIcon
+                       forState:UIControlStateNormal];
+        }
     }
     [self setNeedsDisplay];
     [containingController displayExecuteDialog];
@@ -60,6 +69,7 @@
 {
     track = trk;
     track.cell = self;
+    track.enqueued = track.deletePending = NO;
 }
 
 - (void)startDownloading
@@ -74,8 +84,7 @@
     [spinner stopAnimating];
     [spinner removeFromSuperview];
     [self addSubview:selectBtn];
-    [selectBtn setImage:haveIcon forState:UIControlStateDisabled];
-    selectBtn.enabled = NO;
+    [selectBtn setImage:haveIcon forState:UIControlStateNormal];
     [self setNeedsDisplay];
 }
 
@@ -101,15 +110,14 @@
     [selectBtn setFrame:btnFrame];
 
     enqueued = NO;
-    if (![[FullTrackStore defaultStore] 
-          isLocalTrack:[track.information objectForKey:@"id"]]) {
+    isLocal = [[FullTrackStore defaultStore] 
+               isLocalTrack:[track.information objectForKey:@"id"]];
+    if (!isLocal) {
         [selectBtn setImage:downloadIcon
                    forState:UIControlStateNormal];
-        selectBtn.enabled = YES;
     } else {
         [selectBtn setImage:haveIcon
-                   forState:UIControlStateDisabled];
-        selectBtn.enabled = NO;
+                   forState:UIControlStateNormal];
     }
 }
 

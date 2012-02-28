@@ -16,13 +16,16 @@
     UILabel *trackDescLabel;
     UIButton *selectBtn;
     CatalogTrack *track;
+    BOOL isLocal;
     UIImage *downloadIcon;
     UIImage *queuedIcon;
     UIImage *haveIcon;
+    UIImage *deleteIcon;
     UIActivityIndicatorView *spinner;
     __weak CatalogViewController *containingController;
 }
 @property (nonatomic) BOOL enqueued;
+@property (nonatomic) BOOL deletePending;
 @property (nonatomic, weak) CatalogViewController *containingController;
 - (void)setTrack:(CatalogTrack *)trk;
 - (void)toggleStatus:(id)sender;

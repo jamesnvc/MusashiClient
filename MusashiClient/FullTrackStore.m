@@ -241,6 +241,13 @@ static NSURL *apiBaseURL = nil;
     return ids;
 }
 
+- (void)deleteTracksWithId:(NSArray *)trackIds
+{
+    for (NSNumber *trackId in trackIds) {
+        [context deleteObject:[self trackWithId:trackId]];
+    }
+}
+
 - (NSString *)fullTracksArchivePath
 {
     return pathInDocumentDirectory(@"fulltracks.data");

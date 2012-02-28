@@ -17,4 +17,5 @@
 @property (nonatomic, strong) NSDictionary *information;
 @property (nonatomic, weak) CatalogViewCell *cell;
 @property (nonatomic) BOOL enqueued;
+@property (nonatomic) BOOL deletePending;
 @end

@@ -1,27 +1,33 @@
 //
-//  WorkoutViewController.m
+//  WorkoutEditViewController.m
 //  MusashiClient
 //
 //  Created by James Cash on 17-02-12.
 //  Copyright (c) 2012 University of Toronto. All rights reserved.
 //
 
-#import "WorkoutViewController.h"
+#import "WorkoutEditViewController.h"
 #import "FullTrackStore.h"
 #import "FullTrack.h"
+#import "Workout.h"
+#import "WorkoutsStore.h"
 
-@implementation WorkoutViewController
-@synthesize track4Field;
-@synthesize track5Field;
-@synthesize track6Field;
-@synthesize track3Field;
-@synthesize track1Field;
-@synthesize track2Field;
+@implementation WorkoutEditViewController
+@synthesize nameField;
+@synthesize workout;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithNibName:(NSString *)nibNameOrNil
+               bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.navigationItem.rightBarButtonItem = 
+          [[UIBarButtonItem alloc] 
+           initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
+           target:self
+           action:@selector(saveWorkout:)];
+        selectedTracks = [NSMutableDictionary 
+                          dictionaryWithCapacity:12];
     }
     return self;
 }
@@ -41,16 +47,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [nameField setText:[workout name]];
 }
 
 - (void)viewDidUnload
 {
-    [self setTrack1Field:nil];
-    [self setTrack2Field:nil];
-    [self setTrack3Field:nil];
-    [self setTrack4Field:nil];
-    [self setTrack5Field:nil];
-    [self setTrack6Field:nil];
+    self.workout = nil;
+    self.nameField = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -69,7 +72,8 @@
 {
     NSNumber *trackNum = [sender valueForKey:@"tag"];
     currentField = sender;
-    tracks = [[FullTrackStore defaultStore] tracksAtSequences:trackNum];
+    tracks = [[FullTrackStore defaultStore] 
+              tracksAtSequences:trackNum];
     if (tracks == nil || [tracks count] == 0) {
         [sender setText:@"No available tracks"];
         [sender setTextColor:[UIColor grayColor]];
@@ -97,10 +101,13 @@ numberOfRowsInComponent:(NSInteger)component
     return 1;
 }
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row 
+- (void)pickerView:(UIPickerView *)pickerView 
+      didSelectRow:(NSInteger)row 
        inComponent:(NSInteger)component
 {
     FullTrack *track = [tracks objectAtIndex:row];
+    [selectedTracks setObject:track 
+                       forKey:track.sequenceNumber];
     [currentField setText:[NSString stringWithFormat:@"Release %@",
                            [track valueForKey:@"releaseNumber"]]];
     [pickerView removeFromSuperview];
@@ -112,7 +119,24 @@ numberOfRowsInComponent:(NSInteger)component
             forComponent:(NSInteger)component
 {
     return [NSString stringWithFormat:@"Release %@",
-            [[tracks objectAtIndex:row] valueForKey:@"releaseNumber"]];
+            [[tracks objectAtIndex:row] 
+             valueForKey:@"releaseNumber"]];
 }
 
+- (IBAction)saveWorkout:(id)sender
+{
+    for (FullTrack *track in [selectedTracks allValues]){
+        [workout setTrack:track 
+              forSequence:[track.sequenceNumber intValue]
+         ];
+    }
+    workout.name = nameField.text;
+    [[WorkoutsStore defaultStore] saveChanges];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
+}
 @end

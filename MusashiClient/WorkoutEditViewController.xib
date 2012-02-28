@@ -91,8 +91,11 @@
 						<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 						<float key="IBUIMinimumFontSize">17</float>
 						<object class="IBUITextInputTraits" key="IBUITextInputTraits">
+							<int key="IBUIReturnKeyType">9</int>
+							<bool key="IBUIEnablesReturnKeyAutomatically">YES</bool>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
+						<int key="IBUIClearButtonMode">1</int>
 						<object class="IBUIFontDescription" key="IBUIFontDescription" id="475668226">
 							<int key="type">1</int>
 							<double key="pointSize">14</double>
@@ -471,51 +474,19 @@ AAgACAAIAAEAAQABAAE</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">track1Field</string>
+						<string key="label">nameField</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="109066620"/>
+						<reference key="destination" ref="634385137"/>
 					</object>
-					<int key="connectionID">20</int>
+					<int key="connectionID">38</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">track2Field</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="40632099"/>
+						<string key="label">delegate</string>
+						<reference key="source" ref="634385137"/>
+						<reference key="destination" ref="372490531"/>
 					</object>
-					<int key="connectionID">27</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">track3Field</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="311611992"/>
-					</object>
-					<int key="connectionID">28</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">track4Field</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="875629655"/>
-					</object>
-					<int key="connectionID">32</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">track5Field</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="830913536"/>
-					</object>
-					<int key="connectionID">33</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">track6Field</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="499666152"/>
-					</object>
-					<int key="connectionID">34</int>
+					<int key="connectionID">40</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -685,7 +656,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
-				<string key="-1.CustomClassName">WorkoutViewController</string>
+				<string key="-1.CustomClassName">WorkoutEditViewController</string>
 				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="-2.CustomClassName">UIResponder</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -794,61 +765,41 @@ AAgACAAIAAEAAQABAAE</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">37</int>
+			<int key="maxID">40</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
-					<string key="className">WorkoutViewController</string>
+					<string key="className">WorkoutEditViewController</string>
 					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">showPickerView:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">showPickerView:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="saveWorkout:">id</string>
+						<string key="showPickerView:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="saveWorkout:">
+							<string key="name">saveWorkout:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showPickerView:">
 							<string key="name">showPickerView:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+					</dictionary>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">nameField</string>
+						<string key="NS.object.0">UITextField</string>
 					</object>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="track1Field">UITextField</string>
-						<string key="track2Field">UITextField</string>
-						<string key="track3Field">UITextField</string>
-						<string key="track4Field">UITextField</string>
-						<string key="track5Field">UITextField</string>
-						<string key="track6Field">UITextField</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="track1Field">
-							<string key="name">track1Field</string>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">nameField</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">nameField</string>
 							<string key="candidateClassName">UITextField</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="track2Field">
-							<string key="name">track2Field</string>
-							<string key="candidateClassName">UITextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="track3Field">
-							<string key="name">track3Field</string>
-							<string key="candidateClassName">UITextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="track4Field">
-							<string key="name">track4Field</string>
-							<string key="candidateClassName">UITextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="track5Field">
-							<string key="name">track5Field</string>
-							<string key="candidateClassName">UITextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="track6Field">
-							<string key="name">track6Field</string>
-							<string key="candidateClassName">UITextField</string>
-						</object>
-					</dictionary>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/WorkoutViewController.h</string>
+						<string key="minorKey">./Classes/WorkoutEditViewController.h</string>
 					</object>
 				</object>
 			</array>

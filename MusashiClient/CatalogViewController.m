@@ -152,12 +152,25 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     executeBtn.enabled = NO;
     executeBtn.title = @"Executing...";
+    NSArray *toDelete = [catalog.tracks
+                         filteredArrayUsingPredicate:
+                         [NSPredicate
+                          predicateWithBlock:^BOOL(id obj, NSDictionary *d) {
+                              return ((CatalogTrack *)obj).deletePending;
+                          }]];
+    if (toDelete) {
+        
+    }
     NSArray *selected = [catalog.tracks 
                          filteredArrayUsingPredicate:
                          [NSPredicate 
                           predicateWithBlock:^BOOL(id obj, NSDictionary *d) {
                               return ((CatalogTrack *)obj).enqueued;
                           }]];
+    if (!selected) {
+        [self hideExecuteDialog];
+        return;
+    }
     NSMutableArray *track_ids = [[NSMutableArray alloc] init];
     NSMutableDictionary *id_track_dict = [[NSMutableDictionary alloc] 
                                           initWithCapacity:[selected count]];
