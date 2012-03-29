@@ -17,7 +17,7 @@
         <attribute name="trackId" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <relationship name="blocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Block" inverseName="track" inverseEntity="Block" syncable="YES"/>
     </entity>
-    <entity name="Move" syncable="YES">
+    <entity name="Move" representedClassName="Move" syncable="YES">
         <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="moveDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sequenceNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>

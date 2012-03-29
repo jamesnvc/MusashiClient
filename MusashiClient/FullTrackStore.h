@@ -32,6 +32,7 @@ typedef void(^TrackStoreCallback)(NSNumber *);
        withCallback:(TrackStoreCallback)callback;
 - (void)deleteTracksWithId:(NSArray *)trackIds;
 - (FullTrack *)trackWithId:(NSNumber *)trackId;
+- (FullTrack *)dummyTrack;
 - (NSArray *)tracksAtSequences:(NSNumber *)sequence;
 - (NSArray *)allTracks;
 - (NSArray *)allTrackIds;

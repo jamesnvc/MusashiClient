@@ -102,7 +102,9 @@ static WorkoutsStore *defaultStore = nil;
 
 - (void)deleteWorkout:(Workout *)workout
 {
+    NSError *err = nil;
     [context deleteObject:workout];
+    [context save:&err];
 }
 
 @end

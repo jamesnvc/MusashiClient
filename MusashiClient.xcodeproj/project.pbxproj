@@ -10,6 +10,9 @@
 		1A49647A14E57082004202E8 /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A49647814E57082004202E8 /* MainMenuViewController.m */; };
 		1A49647B14E57082004202E8 /* MainMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A49647914E57082004202E8 /* MainMenuViewController.xib */; };
 		1A49647D14E59B8C004202E8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A49647C14E59B8B004202E8 /* CoreData.framework */; };
+		1A6359111513E05E00B0A9F4 /* Move.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6359101513E05E00B0A9F4 /* Move.m */; };
+		1A63591B1519E8BE00B0A9F4 /* WorkoutAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6359191519E8BE00B0A9F4 /* WorkoutAnalysisViewController.m */; };
+		1A63591C1519E8BE00B0A9F4 /* WorkoutAnalysisViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A63591A1519E8BE00B0A9F4 /* WorkoutAnalysisViewController.xib */; };
 		1A69BD6D14E59C5D000A19E8 /* FullTrack.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1A69BD6B14E59C5D000A19E8 /* FullTrack.xcdatamodeld */; };
 		1A69BD7014E713B8000A19E8 /* FullTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A69BD6F14E713B8000A19E8 /* FullTrack.m */; };
 		1A69BD7314E71D72000A19E8 /* FullTrackStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A69BD7214E71D72000A19E8 /* FullTrackStore.m */; };
@@ -18,6 +21,7 @@
 		1A69BD8C14E96F18000A19E8 /* download.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A69BD8B14E96F18000A19E8 /* download.png */; };
 		1A69BD8E14E96F22000A19E8 /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A69BD8D14E96F22000A19E8 /* inbox.png */; };
 		1A69BD9014E9755E000A19E8 /* house.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A69BD8F14E9755E000A19E8 /* house.png */; };
+		1A6B321415099B8700FA907D /* WorkoutAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6B321315099B8700FA907D /* WorkoutAnalyzer.m */; };
 		1A7B34EC14DC27AF006FC5A8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7B34EB14DC27AF006FC5A8 /* UIKit.framework */; };
 		1A7B34EE14DC27AF006FC5A8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7B34ED14DC27AF006FC5A8 /* Foundation.framework */; };
 		1A7B34F014DC27AF006FC5A8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7B34EF14DC27AF006FC5A8 /* CoreGraphics.framework */; };
@@ -46,6 +50,11 @@
 		1A49647814E57082004202E8 /* MainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuViewController.m; sourceTree = "<group>"; };
 		1A49647914E57082004202E8 /* MainMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenuViewController.xib; sourceTree = "<group>"; };
 		1A49647C14E59B8B004202E8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1A63590F1513E05E00B0A9F4 /* Move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Move.h; sourceTree = "<group>"; };
+		1A6359101513E05E00B0A9F4 /* Move.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Move.m; sourceTree = "<group>"; };
+		1A6359181519E8BE00B0A9F4 /* WorkoutAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkoutAnalysisViewController.h; sourceTree = "<group>"; };
+		1A6359191519E8BE00B0A9F4 /* WorkoutAnalysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkoutAnalysisViewController.m; sourceTree = "<group>"; };
+		1A63591A1519E8BE00B0A9F4 /* WorkoutAnalysisViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WorkoutAnalysisViewController.xib; sourceTree = "<group>"; };
 		1A69BD6C14E59C5D000A19E8 /* FullTrack.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FullTrack.xcdatamodel; sourceTree = "<group>"; };
 		1A69BD6E14E713B8000A19E8 /* FullTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullTrack.h; sourceTree = "<group>"; };
 		1A69BD6F14E713B8000A19E8 /* FullTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullTrack.m; sourceTree = "<group>"; };
@@ -58,6 +67,8 @@
 		1A69BD8B14E96F18000A19E8 /* download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download.png; sourceTree = "<group>"; };
 		1A69BD8D14E96F22000A19E8 /* inbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inbox.png; sourceTree = "<group>"; };
 		1A69BD8F14E9755E000A19E8 /* house.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house.png; sourceTree = "<group>"; };
+		1A6B321215099B8700FA907D /* WorkoutAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkoutAnalyzer.h; sourceTree = "<group>"; };
+		1A6B321315099B8700FA907D /* WorkoutAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkoutAnalyzer.m; sourceTree = "<group>"; };
 		1A7B34E714DC27AF006FC5A8 /* MusashiClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusashiClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A7B34EB14DC27AF006FC5A8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1A7B34ED14DC27AF006FC5A8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -121,6 +132,9 @@
 		1A69BD8714E96BD4000A19E8 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1A6359181519E8BE00B0A9F4 /* WorkoutAnalysisViewController.h */,
+				1A6359191519E8BE00B0A9F4 /* WorkoutAnalysisViewController.m */,
+				1A63591A1519E8BE00B0A9F4 /* WorkoutAnalysisViewController.xib */,
 				1A49647714E57082004202E8 /* MainMenuViewController.h */,
 				1A49647814E57082004202E8 /* MainMenuViewController.m */,
 				1A49647914E57082004202E8 /* MainMenuViewController.xib */,
@@ -149,6 +163,8 @@
 				1A69BD8914E96C33000A19E8 /* Preview & Catalog */,
 				1A69BD6E14E713B8000A19E8 /* FullTrack.h */,
 				1A69BD6F14E713B8000A19E8 /* FullTrack.m */,
+				1A63590F1513E05E00B0A9F4 /* Move.h */,
+				1A6359101513E05E00B0A9F4 /* Move.m */,
 			);
 			name = Tracks;
 			sourceTree = "<group>";
@@ -249,6 +265,8 @@
 				1AA508FF14FC525500A21267 /* Workout.m */,
 				1AA508F014FAE5EB00A21267 /* WorkoutsStore.h */,
 				1AA508F114FAE5EB00A21267 /* WorkoutsStore.m */,
+				1A6B321215099B8700FA907D /* WorkoutAnalyzer.h */,
+				1A6B321315099B8700FA907D /* WorkoutAnalyzer.m */,
 			);
 			name = Workouts;
 			sourceTree = "<group>";
@@ -314,6 +332,7 @@
 				1AA508DA14EC43E300A21267 /* FullTrackDetailViewController.xib in Resources */,
 				1AA508E014EE981700A21267 /* WorkoutEditViewController.xib in Resources */,
 				1AA508EE14FAD26800A21267 /* delete.png in Resources */,
+				1A63591C1519E8BE00B0A9F4 /* WorkoutAnalysisViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +361,9 @@
 				1AA508F214FAE5EB00A21267 /* WorkoutsStore.m in Sources */,
 				1AA508F814FC394300A21267 /* Workout.xcdatamodeld in Sources */,
 				1AA5090014FC525500A21267 /* Workout.m in Sources */,
+				1A6B321415099B8700FA907D /* WorkoutAnalyzer.m in Sources */,
+				1A6359111513E05E00B0A9F4 /* Move.m in Sources */,
+				1A63591B1519E8BE00B0A9F4 /* WorkoutAnalysisViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

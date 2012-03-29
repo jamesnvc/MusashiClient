@@ -118,8 +118,7 @@
 - (BOOL)tableView:(UITableView *)tableView 
 canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [indexPath indexAtPosition:1] < 
-      [self tableView:tableView numberOfRowsInSection:1];
+    return [indexPath indexAtPosition:1] < [self tableView:tableView numberOfRowsInSection:1] - 1;
 }
 
 // Override to support editing the table view.
@@ -129,15 +128,14 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WorkoutsStore *store = [WorkoutsStore defaultStore];
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSLog(@"Deleting row");
         // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:
-                      [NSArray arrayWithObject:indexPath] 
-                         withRowAnimation:
-         UITableViewRowAnimationFade];
         NSArray *workouts = [store allWorkouts];
         [store 
          deleteWorkout:[workouts objectAtIndex:
                         [indexPath indexAtPosition:1]]];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
+                         withRowAnimation:UITableViewRowAnimationFade]; 
 
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {

@@ -17,6 +17,7 @@
 @implementation FullTrackStore
 
 static FullTrackStore *defaultStore = nil;
+static FullTrack *dummy = nil;
 static NSURL *apiBaseURL = nil;
 
 + (FullTrackStore *)defaultStore
@@ -400,6 +401,16 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
     [req setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
     connection = [[NSURLConnection alloc]
                   initWithRequest:req delegate:self startImmediately:YES];
+}
+
+- (FullTrack *)dummyTrack
+{
+    if (dummy == nil) {
+        dummy = [NSEntityDescription
+                 insertNewObjectForEntityForName:@"FullTrack" 
+                 inManagedObjectContext:context];
+    }
+    return dummy;
 }
 
 @end

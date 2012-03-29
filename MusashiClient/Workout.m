@@ -45,6 +45,25 @@
             nil];
 }
 
+- (NSArray *)fullTracks
+{
+    FullTrackStore *store = [FullTrackStore defaultStore];
+    NSArray *trackIds = [self tracks];
+    NSMutableArray *fullTracks = [[NSMutableArray alloc] 
+                                  initWithCapacity:[trackIds count]];
+    for (NSNumber *trackId in trackIds) {
+        FullTrack *trk;
+        if ([trackId intValue] != 0) {
+            trk = [store trackWithId:trackId];
+        } else {
+            NSLog(@"Nil track");
+            trk = [store dummyTrack];
+        }
+        [fullTracks addObject:trk];
+    }
+    return fullTracks;
+}
+
 - (void)setTracks:(NSArray *)tracks
 {
     for (FullTrack *track in tracks) {

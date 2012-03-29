@@ -29,5 +29,7 @@
 - (void)removeBlocksObject:(NSManagedObject *)value;
 - (void)addBlocks:(NSSet *)values;
 - (void)removeBlocks:(NSSet *)values;
+- (NSArray *)moveTypes;
+- (NSDictionary *)moveFrequencies;
 
 @end

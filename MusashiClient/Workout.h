@@ -30,4 +30,5 @@
 @property (nonatomic, strong) NSArray *tracks;
 - (void)addTrack:(FullTrack *)track;
 - (FullTrack *)trackForSequence:(NSInteger)sequence;
+- (NSArray *)fullTracks;
 @end

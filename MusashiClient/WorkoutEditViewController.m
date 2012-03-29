@@ -11,6 +11,13 @@
 #import "FullTrack.h"
 #import "Workout.h"
 #import "WorkoutsStore.h"
+#import "FullTrackDetailViewController.h"
+#import "WorkoutAnalysisViewController.h"
+
+@interface WorkoutEditViewController ()
+- (void)addDetailButtonForTrack:(FullTrack *)trk
+                    atTextField:(UITextField *)textField;
+@end
 
 @implementation WorkoutEditViewController
 @synthesize textFields;
@@ -22,6 +29,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        actionSheet = nil;
         self.navigationItem.rightBarButtonItem = 
           [[UIBarButtonItem alloc] 
            initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
@@ -53,12 +61,53 @@
         FullTrack *trk = [workout 
                           trackForSequence:[textField tag]];
         if (trk) {
-            [textField 
-             setText:[NSString 
-                      stringWithFormat:@"Release %@",
-                      trk.releaseNumber]];
+            [self addDetailButtonForTrack:trk atTextField:textField];
         }
     }
+}
+
+- (void)addDetailButtonForTrack:(FullTrack *)trk 
+                    atTextField:(UITextField *)textField
+{
+    [textField 
+     setText:[NSString 
+              stringWithFormat:@"Release %@",
+              trk.releaseNumber]];
+    UIButton *btn = [UIButton
+                     buttonWithType:UIButtonTypeDetailDisclosure];
+    [btn setTag:[textField tag]];
+    [btn addTarget:self
+            action:@selector(viewTrackDetail:) 
+  forControlEvents:UIControlEventTouchDown];
+    CGRect textFieldFrame = textField.frame;
+    CGFloat btnX = textFieldFrame.origin.x + textFieldFrame.size.width;
+    CGFloat btnY = textFieldFrame.origin.y;
+    CGPoint btnOrigin = CGPointMake(btnX, btnY);
+    CGRect btnFrame = btn.frame;
+    btnFrame.origin = btnOrigin;
+    [btn setFrame:btnFrame];
+    [self.view addSubview:btn];
+}
+
+- (IBAction)viewTrackDetail:(id)sender
+{
+    FullTrackDetailViewController *dvc = [[FullTrackDetailViewController alloc]
+                                          init];
+    dvc.track = [workout trackForSequence:[sender tag]];
+    if (dvc.track == nil) {
+        dvc.track = [selectedTracks 
+                     objectForKey:[NSNumber numberWithInteger:[sender tag]]];
+    }
+    [self.navigationController pushViewController:dvc animated:YES];
+}
+
+- (IBAction)analyzeWorkout:(id)sender
+{
+    WorkoutAnalysisViewController *dvc = [[WorkoutAnalysisViewController alloc]
+                                          init];
+    /* TODO: Should we save changes before doing this? Could be unintuitive otherwise */
+    dvc.workout = workout;
+    [self.navigationController pushViewController:dvc animated:YES];
 }
 
 - (void)viewDidUnload
@@ -93,13 +142,36 @@
         return;
     }
     [sender resignFirstResponder];
-    float w = self.view.frame.size.width;
+    if (!actionSheet) {
+        actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select"
+                                                  delegate:self
+                                         cancelButtonTitle:nil
+                                    destructiveButtonTitle:nil
+                                         otherButtonTitles:nil];
+        UIToolbar *pickerToolbar = [[UIToolbar alloc] 
+                                    initWithFrame:CGRectMake(0, 0, 320, 44)];
+        pickerToolbar.barStyle = UIBarStyleBlackOpaque;
+        [pickerToolbar sizeToFit];
+        NSMutableArray *barItems = [[NSMutableArray alloc] initWithCapacity:2];
+        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc]
+                                      initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace 
+                                      target:self action:nil];
+        [barItems addObject:flexSpace];
+        UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc]
+                                    initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                    target:self action:@selector(pickerDone:)];
+        [barItems addObject:doneBtn];
+        [pickerToolbar setItems:barItems animated:YES];
+        [actionSheet addSubview:pickerToolbar];
+        [actionSheet showInView:self.view];
+        [actionSheet setBounds:CGRectMake(0,0,320, 464)];
+    }
     UIPickerView *picker = [[UIPickerView alloc] 
-                            initWithFrame:CGRectMake(0, 240, w, 0)];
+                            initWithFrame:CGRectMake(0, 44.0, 0, 0)];
     picker.delegate = self;
     picker.dataSource = self;
     picker.showsSelectionIndicator = YES;
-    [self.view addSubview:picker];
+    [actionSheet addSubview:picker];
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView 
@@ -113,6 +185,14 @@ numberOfRowsInComponent:(NSInteger)component
     return 1;
 }
 
+- (IBAction)pickerDone:(id)sender            
+{
+    [actionSheet dismissWithClickedButtonIndex:0 animated:YES];
+    actionSheet = nil;
+    tracks = nil;
+    currentField = nil;
+}
+
 - (void)pickerView:(UIPickerView *)pickerView 
       didSelectRow:(NSInteger)row 
        inComponent:(NSInteger)component
@@ -122,9 +202,7 @@ numberOfRowsInComponent:(NSInteger)component
                        forKey:track.sequenceNumber];
     [currentField setText:[NSString stringWithFormat:@"Release %@",
                            track.releaseNumber]];
-    [pickerView removeFromSuperview];
-    tracks = nil;
-    currentField = nil;
+    [self addDetailButtonForTrack:track atTextField:currentField];
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row
